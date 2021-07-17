@@ -49,10 +49,25 @@ function transRemote() {
     tree $dst
 }
 
+function syncBook() {
+    startTime=$(date +%s)
+
+    rsync -av \
+        --password-file=./rsync.password \
+        /mnt/d/sync/我的坚果云/wkx/ \
+        rsync@192.168.1.212::book
+
+    endTime=$(date +%s)
+    ((intervalTime = $endTime - $startTime))
+    echo "intervalTime:${intervalTime}"
+}
+
 if [ "$1" == "daemon" ]; then
     daemon
 elif [ "$1" == "transRemote" ]; then
     transRemote
 elif [ "$1" == "transLocal" ]; then
     transLocal
+elif [ "$1" == "syncBook" ]; then
+    syncBook
 fi
